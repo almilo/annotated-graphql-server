@@ -1,0 +1,54 @@
+type User {
+  login: String
+  id: Int
+  avatar_url: String
+  gravatar_id: String
+  url: String
+  html_url: String
+  followers_url: String
+  subscriptions_url: String
+  organizations_url: String
+  repos_url: String
+  received_events_url: String
+  type: String
+  score: Float
+}
+
+type Repository {
+  id: Int
+  name: String
+  full_name: String
+  owner: User
+  private: Boolean
+  html_url: String
+  description: String
+  fork: Boolean
+  url: String
+  created_at: String
+  updated_at: String
+  pushed_at: String
+  homepage: String
+  size: Int
+  stargazers_count: Int
+  watchers_count: Int
+  language: String
+  forks_count: Int
+  open_issues_count: Int
+  master_branch: String
+  default_branch: String
+  score: Float
+}
+
+type Query {
+  @rest (
+    url: 'https://api.github.com/search/users',
+    resultField: 'items'
+  )
+  users(q: String!, sort: String, order: String): [User]
+
+  @rest (
+    url: 'https://api.github.com/search/repositories',
+    resultField: 'items'
+  )
+  repositories(q: String!, sort: String, order: String): [Repository]
+}

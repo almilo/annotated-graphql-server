@@ -9,7 +9,8 @@ import graphqlEndpointDispatcherFactory from './graphql-endpoint-dispatcher-fact
 const APPLICATION_PORT = 3000,
     graphqlEndpointDispatcher = graphqlEndpointDispatcherFactory(
         {
-            'transport': readSchemaFile('annotatedSchema.graphql')
+            'transport': readSchemaFile('transport-api.graphql'),
+            'github': readSchemaFile('github-api.graphql')
         },
         [
             RestSchemaAnnotation.createExtractor()
