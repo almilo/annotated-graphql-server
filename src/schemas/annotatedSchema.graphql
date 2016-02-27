@@ -1,0 +1,88 @@
+type Coordinates {
+  type: String
+  x: Float
+  y: Float
+}
+
+type Location {
+  id: String
+  type: String
+  name: String
+  score: Float
+  coordinate: Coordinates
+  distance: Float
+}
+
+type StationAndStationBoard {
+    station: Location
+    stationboard: [Journey]
+}
+
+type Journey {
+  name: String
+  category: String
+  categoryCode: String
+  number: Int
+  operator:	String
+  passList:	[Checkpoint]
+  capacity1st: Int
+  capacity2st: Int
+}
+
+type Checkpoint {
+  station: Location
+  arrival: String
+  departure: String
+  platform: Int
+  prognosis: Prognosis
+}
+
+type Prognosis {
+  platform: Int
+  departure: String
+  arrival: String
+  capacity1st: Int
+  capacity2st: Int
+}
+
+type Service {
+  regular: String
+  irregular: String
+}
+
+type Section {
+  journey: Journey
+  walk: String
+  departure: Checkpoint
+  arrival: Checkpoint
+}
+
+type Connection {
+  from: Checkpoint
+  to: Checkpoint
+  duration: String
+  service: Service
+  products: [String]
+  capacity1st: Int
+  capacity2st: Int
+  sections: [Section]
+}
+
+type Query {
+  @rest (
+    url: 'http://transport.opendata.ch/v1/locations',
+    resultField: 'stations'
+  )
+  locations(query: String, x: Float, y: Float, type: String, transportations: [String]): [Location]
+
+  @rest (
+    url: 'http://transport.opendata.ch/v1/connections',
+    resultField: 'connections'
+  )
+  connections(from: String!, to: String!): [Connection]
+
+  @rest (
+    url: 'http://transport.opendata.ch/v1/stationboard'
+  )
+  stationboard(station: String, id: String, limit: Int, transportations: [String], datetime: String): StationAndStationBoard
+}
