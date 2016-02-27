@@ -1,2 +1,2 @@
 # annotated-graphql-server
-Annotated GraphQL Server
+Annotated GraphQL Server. Demo server for annotated GraphQL.
