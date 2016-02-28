@@ -39,7 +39,8 @@ type Repository {
   score: Float
 }
 
-type Query {
+@graphql(role: 'query')
+type GitHubQuery {
   @rest (
     url: 'https://api.github.com/search/users',
     resultField: 'items'

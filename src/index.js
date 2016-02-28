@@ -3,7 +3,10 @@ import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { RestSchemaAnnotation } from 'annotated-graphql/dist/annotations';
+import {
+    RestSchemaAnnotation,
+    GraphQLSchemaAnnotation
+} from 'annotated-graphql/dist/annotations';
 import graphqlEndpointDispatcherFactory from './graphql-endpoint-dispatcher-factory';
 
 const APPLICATION_PORT = 3000,
@@ -13,7 +16,8 @@ const APPLICATION_PORT = 3000,
             'github': readSchemaFile('github-api.graphql')
         },
         [
-            RestSchemaAnnotation.createExtractor()
+            RestSchemaAnnotation.createExtractor(),
+            GraphQLSchemaAnnotation.createExtractor()
         ]
     );
 

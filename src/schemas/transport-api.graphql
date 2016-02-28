@@ -68,7 +68,8 @@ type Connection {
   sections: [Section]
 }
 
-type Query {
+@graphql(role: 'query')
+type TransportQuery {
   @rest (
     url: 'http://transport.opendata.ch/v1/locations',
     resultField: 'stations'
