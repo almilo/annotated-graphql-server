@@ -28,6 +28,7 @@ express()
     .use(cors())
     .use('/graphql(/:api)?', graphqlEndpointDispatcher)
     .use('/schema/:api', schemaDispatcherFactory(annotatedSchemas))
+    .use('*', (req, res) => res.redirect('/graphql'))
     .listen(APPLICATION_PORT, _ => console.log('GraphQL server is now running on port:', APPLICATION_PORT));
 
 function readSchemaFile(schemaFileName) {
