@@ -2,17 +2,16 @@ import graphqlHttp from 'express-graphql';
 import { AnnotatedGraphQLSchemaFactory } from 'annotated-graphql';
 import schemaFactory from './schemas/schema-factory';
 
-
 export default function (annotatedSchemas, schemaAnnotationExtractors) {
     const apisGraphQLEndpoint = graphqlHttp({schema: schemaFactory(annotatedSchemas), pretty: true, graphiql: true}),
         annotatedGraphQLSchemaFactory = new AnnotatedGraphQLSchemaFactory(schemaAnnotationExtractors),
         apiEndpoints = Object.keys(annotatedSchemas).reduce(toApiEndpoint, {});
 
-    return function (req) {
+    return function (req, res) {
         const api = req.params.api, graphqlEndpoint = !api ? apisGraphQLEndpoint : apiEndpoints[api];
 
         if (!graphqlEndpoint) {
-            throw new Error(`No endpoint for api: '${api} found.`)
+            res.status(404).send(`No schema for api: '${api}' found.`)
         }
 
         return graphqlEndpoint.apply(undefined, arguments);
