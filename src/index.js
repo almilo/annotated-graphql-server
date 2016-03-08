@@ -11,11 +11,11 @@ import graphqlEndpointDispatcherFactory from './graphql-endpoint-dispatcher-fact
 import schemaDispatcherFactory from './schema-dispatcher-factory';
 
 const APPLICATION_PORT = process.env.PORT || 3000,
-    annotatedSchemas = {
-        'transport': readSchemaFile('transport-api.graphql'),
-        'github': readSchemaFile('github-api.graphql')
-    },
+    SCHEMA_FOLDER_PATH = process.env.SCHEMA_FOLDER || path.join(__dirname, 'schemas'),
+    BASE_ENDPOINT_URL_PATH = '/graphql',
+    annotatedSchemas = readSchemaFiles(SCHEMA_FOLDER_PATH),
     graphqlEndpointDispatcher = graphqlEndpointDispatcherFactory(
+        BASE_ENDPOINT_URL_PATH,
         annotatedSchemas,
         [
             RestSchemaAnnotation.createExtractor(),
@@ -26,11 +26,22 @@ const APPLICATION_PORT = process.env.PORT || 3000,
 express()
     .use(bodyParser.json())
     .use(cors())
-    .use('/graphql(/:api)?', graphqlEndpointDispatcher)
+    .use(`${BASE_ENDPOINT_URL_PATH}(/:api)?`, graphqlEndpointDispatcher)
     .use('/schema/:api', schemaDispatcherFactory(annotatedSchemas))
     .use('*', (req, res) => res.redirect('/graphql'))
     .listen(APPLICATION_PORT, _ => console.log('GraphQL server is now running on port:', APPLICATION_PORT));
 
-function readSchemaFile(schemaFileName) {
-    return fs.readFileSync(path.join(__dirname, 'schemas', schemaFileName), 'utf8');
+function readSchemaFiles(schemaFolderPath) {
+    return fs.readdirSync(schemaFolderPath)
+        .reduce(addSchemaFile, {});
+
+    function addSchemaFile(schemas, schemaFileName) {
+        const fileId = (schemaFileName.match(/(.*)\.graphql/) || [])[1];
+
+        if (fileId) {
+            schemas[fileId] = fs.readFileSync(path.join(schemaFolderPath, schemaFileName), 'utf8');
+        }
+
+        return schemas;
+    }
 }

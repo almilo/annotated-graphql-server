@@ -6,7 +6,7 @@ import {
     GraphQLList
 } from 'graphql';
 
-export default function (sourceSchemas) {
+export default function (sourceSchemas, baseEndpointUrlPath) {
     const SchemaType = new GraphQLObjectType({
             name: 'Schema',
             fields: {
@@ -14,6 +14,9 @@ export default function (sourceSchemas) {
                     type: GraphQLString
                 },
                 text: {
+                    type: GraphQLString
+                },
+                endpoint: {
                     type: GraphQLString
                 }
             }
@@ -29,7 +32,8 @@ export default function (sourceSchemas) {
                         function toSchemaType(schemas, schemaKey) {
                             schemas.push({
                                 name: schemaKey,
-                                text: sourceSchemas[schemaKey]
+                                text: sourceSchemas[schemaKey],
+                                endpoint: `${baseEndpointUrlPath}/${schemaKey}`
                             });
 
                             return schemas;
