@@ -1,49 +1,38 @@
-import {
-    graphql,
-    GraphQLSchema,
-    GraphQLObjectType,
-    GraphQLString,
-    GraphQLList
-} from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
 
 export default function (sourceSchemas, baseEndpointUrlPath) {
-    const SchemaType = new GraphQLObjectType({
-            name: 'Schema',
-            fields: {
-                name: {
-                    type: GraphQLString
-                },
-                text: {
-                    type: GraphQLString
-                },
-                endpoint: {
-                    type: GraphQLString
-                }
-            }
-        }),
-        SchemasQueryType = new GraphQLObjectType({
-            name: 'SchemasQuery',
-            fields: {
-                schemas: {
-                    type: new GraphQLList(SchemaType),
-                    resolve() {
-                        return Object.keys(sourceSchemas).reduce(toSchemaType, []);
+    const metaSchema = `
+        type Schema {
+            name: String!
+            text: String!
+            endpoint: String!
+        }
+        
+        type Query {
+            schemas: [Schema]
+        }
+        
+        schema {
+            query: Query
+        }
+    `;
 
-                        function toSchemaType(schemas, schemaKey) {
-                            schemas.push({
-                                name: schemaKey,
-                                text: sourceSchemas[schemaKey],
-                                endpoint: `${baseEndpointUrlPath}/${schemaKey}`
-                            });
-
-                            return schemas;
-                        }
-                    }
-                }
+    return makeExecutableSchema({
+        typeDefs: metaSchema,
+        resolvers: {
+            Query: {
+                schemas: _ => Object.keys(sourceSchemas).reduce(toSchemaType, [])
             }
+        }
+    });
+
+    function toSchemaType(schemas, schemaKey) {
+        schemas.push({
+            name: schemaKey,
+            text: sourceSchemas[schemaKey],
+            endpoint: `${baseEndpointUrlPath}/${schemaKey}`
         });
 
-    return new GraphQLSchema({
-        query: SchemasQueryType
-    });
+        return schemas;
+    }
 }

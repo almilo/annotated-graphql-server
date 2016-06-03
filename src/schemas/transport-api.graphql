@@ -69,7 +69,7 @@ type Connection {
 }
 
 @graphql(role: 'query')
-type TransportQuery {
+type Query {
   @rest (
     url: 'http://transport.opendata.ch/v1/locations',
     resultField: 'stations'
@@ -86,4 +86,8 @@ type TransportQuery {
     url: 'http://transport.opendata.ch/v1/stationboard'
   )
   stationboard(station: String, id: String, limit: Int, transportations: [String], datetime: String): StationAndStationBoard
+}
+
+schema {
+    query: Query
 }

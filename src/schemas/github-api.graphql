@@ -40,7 +40,7 @@ type Repository {
 }
 
 @graphql(role: 'query', description: "The GitHub query model")
-type GitHubQuery {
+type Query {
   @rest (
     url: 'https://api.github.com/search/users',
     resultField: 'items'
@@ -54,4 +54,8 @@ type GitHubQuery {
   )
   @graphql(description: "The GitHub repos")
   repositories(q: String!, sort: String, order: String): [Repository]
+}
+
+schema {
+    query: Query
 }
