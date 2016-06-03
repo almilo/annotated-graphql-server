@@ -14,7 +14,7 @@
   "author": "Alberto Mijares <almilo@almilo.es>",
   "license": "MIT",
   "dependencies": {
-    "annotated-graphql": "^0.0.4",
+    "annotated-graphql": "^0.0.5",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
     "babel-preset-node5": "^10.6.0",
