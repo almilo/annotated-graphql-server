@@ -1,6 +1,6 @@
 import graphqlHttp from 'express-graphql';
 import { AnnotatedGraphQLSchemaFactory } from 'annotated-graphql';
-import schemaFactory from '../schemas/schema-factory';
+import schemaFactory from './schema-factory';
 
 export default function (baseEndpointUrlPath, annotatedSchemas, schemaAnnotationExtractors) {
     const apisGraphQLEndpoint = graphqlHttp({
