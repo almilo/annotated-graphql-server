@@ -4,7 +4,7 @@ import schemaFactory from './schema-factory';
 
 export default function (baseEndpointUrlPath, annotatedSchemas, schemaAnnotationExtractors) {
     const schemasSchema = schemaFactory(annotatedSchemas, baseEndpointUrlPath),
-        schemasEndpoint = graphqlHttp(createEndpointOptions(schemasSchema)),
+        schemasEndpoint = graphqlHttp(createEndpointOptionsProvider(schemasSchema)),
         annotatedGraphQLSchemaFactory = new AnnotatedGraphQLSchemaFactory(schemaAnnotationExtractors),
         apiEndpoints = Object.keys(annotatedSchemas).reduce(toApiEndpoint, {});
 
@@ -21,16 +21,17 @@ export default function (baseEndpointUrlPath, annotatedSchemas, schemaAnnotation
     function toApiEndpoint(apiEndpoints, apiKey) {
         const apiSchema = annotatedGraphQLSchemaFactory.createSchema(annotatedSchemas[apiKey]);
         
-        apiEndpoints[apiKey] = graphqlHttp(createEndpointOptions(apiSchema));
+        apiEndpoints[apiKey] = graphqlHttp(createEndpointOptionsProvider(apiSchema));
 
         return apiEndpoints
     }
 }
 
-function createEndpointOptions(schema) {
-    return {
+function createEndpointOptionsProvider(schema) {
+    return req => ({
         schema,
         pretty: true,
-        graphiql: true
-    };
+        graphiql: true,
+        context: {}
+    });
 }
