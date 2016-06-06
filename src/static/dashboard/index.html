@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Annotated GraphQL Server - Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://wzrd.in/standalone/graphql@0.6.0"></script>
+    <script src="http://graphql-graph.herokuapp.com/schema-fetcher.js"></script>
+    <script>
+        function renderSchemaGraph() {
+            var graphIFrame = document.getElementById('graph'),
+                    graphWindow = graphIFrame.contentWindow || graphIFrame,
+                    graphqlIFrame = document.getElementById('graphql'),
+                    graphqlEndpoint = getParameters()['endpointUrl'] || '/graphql';
+
+            graphqlIFrame.src = graphqlEndpoint;
+            fetchClientSchemaAst(graphqlEndpoint).then(render);
+
+            function render(schemaAst) {
+                graphWindow.postMessage({schemaAst: schemaAst}, graphIFrame.src);
+            }
+        }
+
+        function getParameters() {
+            return window.location.search
+                    .substring(1)
+                    .split('&')
+                    .reduce(addParameter, {});
+
+            function addParameter(parameters, parameter) {
+                var parameterNameAndValue = parameter.split('=');
+
+                parameters[parameterNameAndValue[0]] = parameterNameAndValue[1];
+
+                return parameters;
+            }
+        }
+    </script>
+</head>
+<body>
+<iframe id="graphql" frameborder="0"></iframe>
+<iframe id="graph" src="http://graphql-graph.herokuapp.com/" frameborder="0" onload="renderSchemaGraph()"></iframe>
+</body>
+</html>
