@@ -1,7 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
 export default function (sourceSchemas, baseEndpointUrlPath) {
-    const metaSchema = `
+    const schemasSchema = `
         type Schema {
             name: String!
             text: String!
@@ -18,7 +18,7 @@ export default function (sourceSchemas, baseEndpointUrlPath) {
     `;
 
     return makeExecutableSchema({
-        typeDefs: metaSchema,
+        typeDefs: schemasSchema,
         resolvers: {
             Query: {
                 schemas: _ => Object.keys(sourceSchemas).reduce(toSchemaType, [])

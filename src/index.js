@@ -1,7 +1,7 @@
-import graphqlEndpointDispatcherFactory from './dispatcher/graphql-endpoint-dispatcher-factory';
-import schemaDispatcherFactory from './dispatcher/schema-dispatcher-factory';
+import graphqlDispatcherFactory from './dispatchers/graphql-endpoint-dispatcher-factory';
+import schemasDispatcherFactory from './dispatchers/schemas-dispatcher-factory';
 
 export {
-    graphqlEndpointDispatcherFactory,
-    schemaDispatcherFactory
+    graphqlDispatcherFactory,
+    schemasDispatcherFactory
 };
