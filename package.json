@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Annotated GraphQL Server",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server",
+    "dev": "nodemon --exec babel-node src/server --ext js,json,html,graphql",
     "start": "babel-node src/server"
   },
   "keywords": [
