@@ -1,4 +1,9 @@
-#graphql, #graph {
+#graphql {
     width: 100%;
+    height: 400px;
+}
+#graph, #schema {
+    float: left;
+    width: 50%;
     height: 400px;
 }

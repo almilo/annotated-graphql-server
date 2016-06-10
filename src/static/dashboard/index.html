@@ -12,9 +12,13 @@
             var graphIFrame = document.getElementById('graph'),
                     graphWindow = graphIFrame.contentWindow || graphIFrame,
                     graphqlIFrame = document.getElementById('graphql'),
-                    graphqlEndpoint = getParameters()['endpointUrl'] || '/graphql';
+                    schemaIFrame = document.getElementById('schema'),
+                    schemaId = getParameters()['schemaId'],
+                    schemaFragment = schemaId ?  '/' + schemaId : '',
+                    graphqlEndpoint = '/graphql' + schemaFragment;
 
             graphqlIFrame.src = graphqlEndpoint;
+            schemaIFrame.src = '/schema' + schemaFragment;
             fetchClientSchemaAst(graphqlEndpoint).then(render);
 
             function render(schemaAst) {
@@ -40,6 +44,7 @@
 </head>
 <body>
 <iframe id="graphql" frameborder="0"></iframe>
+<iframe id="schema" frameborder="0"></iframe>
 <iframe id="graph" src="http://graphql-graph.herokuapp.com/" frameborder="0" onload="renderSchemaGraph()"></iframe>
 </body>
 </html>
