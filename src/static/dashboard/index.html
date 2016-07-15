@@ -6,24 +6,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
     <script src="https://wzrd.in/standalone/graphql@0.6.0"></script>
-    <script src="http://graphql-graph.herokuapp.com/schema-fetcher.js"></script>
+    <script src="http://graphql-graph.herokuapp.com/index.js"></script>
     <script>
-        function renderSchemaGraph() {
+        function render() {
             var graphIFrame = document.getElementById('graph'),
-                    graphWindow = graphIFrame.contentWindow || graphIFrame,
                     graphqlIFrame = document.getElementById('graphql'),
                     schemaIFrame = document.getElementById('schema'),
                     schemaId = getParameters()['schemaId'],
-                    schemaFragment = schemaId ?  '/' + schemaId : '',
+                    schemaFragment = schemaId ? '/' + schemaId : '',
                     graphqlEndpoint = '/graphql' + schemaFragment;
 
             graphqlIFrame.src = graphqlEndpoint;
             schemaIFrame.src = '/schema' + schemaFragment;
-            fetchClientSchemaAst(graphqlEndpoint).then(render);
-
-            function render(schemaAst) {
-                graphWindow.postMessage({schemaAst: schemaAst}, graphIFrame.src);
-            }
+            renderSchemaGraph(graphqlEndpoint, graphIFrame);
         }
 
         function getParameters() {
@@ -45,6 +40,6 @@
 <body>
 <iframe id="graphql" frameborder="0"></iframe>
 <iframe id="schema" frameborder="0"></iframe>
-<iframe id="graph" src="http://graphql-graph.herokuapp.com/" frameborder="0" onload="renderSchemaGraph()"></iframe>
+<iframe id="graph" src="http://graphql-graph.herokuapp.com/" frameborder="0" onload="render()"></iframe>
 </body>
 </html>
