@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "Annotated GraphQL Server",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server --ext js,json,html,graphql",
-    "start": "babel-node src/server"
+    "dev": "nodemon --exec npm start --ext js,json,html,graphql",
+    "start": "node -r reify src/server"
   },
   "keywords": [
     "GraphQL",
@@ -14,18 +14,16 @@
   "author": "Alberto Mijares <almilo@almilo.es>",
   "license": "MIT",
   "dependencies": {
-    "annotated-graphql": "^0.0.6",
-    "babel-cli": "^6.5.1",
-    "babel-core": "^6.5.2",
-    "babel-preset-node5": "^10.6.0",
+    "annotated-graphql": "^0.1.0",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",
     "express-graphql": "^0.5.3",
-    "graphql": "^0.5.0",
-    "graphql-tools": "^0.5.0"
+    "graphql": "^0.6.0",
+    "graphql-tools": "^0.5.0",
+    "reify": "^0.3.8"
   },
   "engines": {
-    "node": ">=5"
+    "node": ">=6"
   }
 }

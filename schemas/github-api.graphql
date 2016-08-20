@@ -39,21 +39,22 @@ type Repository {
   score: Float
 }
 
-@graphql(description: "The GitHub query model")
-type Query {
-  @rest (
-    url: 'https://api.github.com/search/users',
-    resultField: 'items'
-  )
-  @graphql(description: "The GitHub users")
-  users(q: String!, sort: String, order: String): [User]
+type Query @graphql(description: "The GitHub query model") {
 
+  users(q: String!, sort: String, order: String): [User]
+  @graphql(description: "The GitHub users")
   @rest (
-    url: 'https://api.github.com/search/repositories',
-    resultField: 'items'
+    url: "https://api.github.com/search/users",
+    resultField: "items"
   )
-  @graphql(description: "The GitHub repos")
+
   repositories(q: String!, sort: String, order: String): [Repository]
+  @graphql(description: "The GitHub repos")
+  @rest (
+    url: "https://api.github.com/search/repositories",
+    resultField: "items"
+  )
+
 }
 
 schema {

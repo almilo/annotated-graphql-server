@@ -1,33 +1,24 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import {
-    readSchemaFiles
-} from './lib/utils';
-import {
-    RestSchemaAnnotation,
-    GraphQLSchemaAnnotation,
-    MapSchemaAnnotation
-} from 'annotated-graphql/dist/annotations';
-import {
-    graphqlDispatcherFactory,
-    schemasDispatcherFactory
-} from './index';
+import { readSchemaFiles } from './lib/utils';
+import { RestSchemaAnnotation, GraphQLSchemaAnnotation, MapSchemaAnnotation } from 'annotated-graphql/dist/annotations';
+import { graphqlDispatcherFactory, schemasDispatcherFactory } from './index';
 
-const APPLICATION_PORT = process.env.PORT || 3000,
-    SCHEMA_FOLDER_PATH = process.env.SCHEMA_FOLDER || 'schemas',
-    BASE_ENDPOINT_URL_PATH = '/graphql',
-    DASHBOARD_ENDPOINT = '/dashboard',
-    annotatedSchemasTextByFilename = readSchemaFiles(SCHEMA_FOLDER_PATH),
-    graphqlDispatcher = graphqlDispatcherFactory(
-        BASE_ENDPOINT_URL_PATH,
-        annotatedSchemasTextByFilename,
-        [
-            RestSchemaAnnotation.createExtractor(),
-            GraphQLSchemaAnnotation.createExtractor(),
-            MapSchemaAnnotation.createExtractor()
-        ]
-    );
+const APPLICATION_PORT = process.env.PORT || 3000;
+const SCHEMA_FOLDER_PATH = process.env.SCHEMA_FOLDER || 'schemas';
+const BASE_ENDPOINT_URL_PATH = '/graphql';
+const DASHBOARD_ENDPOINT = '/dashboard';
+const annotatedSchemasTextByFilename = readSchemaFiles(SCHEMA_FOLDER_PATH);
+const graphqlDispatcher = graphqlDispatcherFactory(
+    BASE_ENDPOINT_URL_PATH,
+    annotatedSchemasTextByFilename,
+    [
+        RestSchemaAnnotation,
+        GraphQLSchemaAnnotation,
+        MapSchemaAnnotation
+    ]
+);
 
 express()
     .use(bodyParser.json())

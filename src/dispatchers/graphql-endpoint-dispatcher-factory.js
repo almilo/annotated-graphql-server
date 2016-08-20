@@ -2,9 +2,9 @@ import graphqlHttp from 'express-graphql';
 import { AnnotatedGraphQLEndpointFactory } from 'annotated-graphql';
 import schemasSchemaFactory from './schemas-schema-factory';
 
-export default function (baseEndpointUrlPath, annotatedSchemasTextByApiId, schemaAnnotationExtractors) {
-    const schemasSchema = schemasSchemaFactory(annotatedSchemasTextByApiId, baseEndpointUrlPath),
-        annotatedGraphQLSchemaFactory = new AnnotatedGraphQLEndpointFactory(schemaAnnotationExtractors);
+export default function (baseEndpointUrlPath, annotatedSchemasTextByApiId, schemaAnnotationClasses) {
+    const schemasSchema = schemasSchemaFactory(annotatedSchemasTextByApiId, baseEndpointUrlPath);
+    const annotatedGraphQLSchemaFactory = new AnnotatedGraphQLEndpointFactory(schemaAnnotationClasses);
 
     return createEndpointDispatcher(
         graphqlHttp({

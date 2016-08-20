@@ -69,22 +69,24 @@ type Connection {
 }
 
 type Query {
-  @rest (
-    url: 'http://transport.opendata.ch/v1/locations',
-    resultField: 'stations'
-  )
+
   locations(query: String, x: Float, y: Float, type: String, transportations: [String]): [Location]
-
   @rest (
-    url: 'http://transport.opendata.ch/v1/connections',
-    resultField: 'connections'
+    url: "http://transport.opendata.ch/v1/locations",
+    resultField: "stations"
   )
+
   connections(from: String!, to: String!): [Connection]
-
   @rest (
-    url: 'http://transport.opendata.ch/v1/stationboard'
+    url: "http://transport.opendata.ch/v1/connections",
+    resultField: "connections"
   )
+
   stationboard(station: String, id: String, limit: Int, transportations: [String], datetime: String): StationAndStationBoard
+  @rest (
+    url: "http://transport.opendata.ch/v1/stationboard",
+  )
+
 }
 
 schema {
