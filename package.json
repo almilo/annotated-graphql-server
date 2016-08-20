@@ -1,6 +1,6 @@
 {
   "name": "annotated-graphql-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Annotated GraphQL Server",
   "scripts": {
     "dev": "nodemon --exec npm start --ext js,json,html,graphql",
